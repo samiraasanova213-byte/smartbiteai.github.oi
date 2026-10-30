@@ -1,2 +1,2 @@
-# smartbiteai.github.oi
+# smartbiteai.github.io
 my first project on Git
