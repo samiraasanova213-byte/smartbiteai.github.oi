@@ -1,0 +1,329 @@
+{% extends "lunch/base.html" %}
+
+{% block title %}Бухгалтерия — SmartBite AI{% endblock %}
+
+{% block content %}
+<div class="accounting-page">
+
+    <section class="dashboard-header">
+        <div>
+            <span class="eyebrow">SMARTBITE AI / ФИНАНСЫ</span>
+            <h1>Бухгалтерия</h1>
+            <p>
+                Контролируй расходы столовой, распределение средств
+                и количество пищевых отходов.
+            </p>
+        </div>
+        <div class="dashboard-icon">🧾</div>
+    </section>
+
+    <section class="stats-grid">
+        <article class="stat-card">
+            <div class="stat-icon green">💸</div>
+            <div class="stat-label">Общие расходы</div>
+            <div class="stat-number">
+                {{ expenses_total|floatformat:2 }} сом
+            </div>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-icon lime">📊</div>
+            <div class="stat-label">Распределено средств</div>
+            <div class="stat-number">
+                {{ allocations_total|floatformat:2 }} сом
+            </div>
+        </article>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">УЧЁТ ДАННЫХ</span>
+                <h2>Добавить запись</h2>
+                <p>Заполняй формы, чтобы обновлять финансовую информацию.</p>
+            </div>
+        </div>
+
+        <div class="form-grid">
+
+            <article class="content-card">
+                <div class="card-icon">💳</div>
+                <h3>Новый расход</h3>
+                <p class="card-description">
+                    Добавь покупку продуктов, оборудования или других товаров.
+                </p>
+
+                <form method="post" class="stack-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="record_type" value="expense">
+
+                    <label for="expense-title">Название расхода</label>
+                    <input
+                        class="input"
+                        type="text"
+                        id="expense-title"
+                        name="title"
+                        placeholder="Например, покупка продуктов"
+                        required
+                    >
+
+                    <label for="expense-category">Категория</label>
+                    <select
+                        class="input"
+                        id="expense-category"
+                        name="category"
+                        required
+                    >
+                        <option value="">Выбери категорию</option>
+                        <option value="Продукты">Продукты</option>
+                        <option value="Оборудование">Оборудование</option>
+                        <option value="Расходные материалы">Расходные материалы</option>
+                        <option value="Другое">Другое</option>
+                    </select>
+
+                    <label for="expense-amount">Сумма, сом</label>
+                    <input
+                        class="input"
+                        type="number"
+                        id="expense-amount"
+                        name="amount"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="Например, 1500"
+                        required
+                    >
+
+                    <button class="button full-button" type="submit">
+                        Сохранить расход
+                    </button>
+                </form>
+            </article>
+
+            <article class="content-card">
+                <div class="card-icon">🎯</div>
+                <h3>Распределение средств</h3>
+                <p class="card-description">
+                    Запиши, на какие цели направлены деньги школы.
+                </p>
+
+                <form method="post" class="stack-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="record_type" value="allocation">
+
+                    <label for="allocation-title">Название</label>
+                    <input
+                        class="input"
+                        type="text"
+                        id="allocation-title"
+                        name="title"
+                        placeholder="Например, покупка фруктов"
+                        required
+                    >
+
+                    <label for="allocation-category">Направление</label>
+                    <select
+                        class="input"
+                        id="allocation-category"
+                        name="category"
+                        required
+                    >
+                        <option value="">Выбери направление</option>
+                        <option value="Здоровое питание">Здоровое питание</option>
+                        <option value="Оборудование">Оборудование</option>
+                        <option value="Зона отдыха учеников">Зона отдыха учеников</option>
+                        <option value="Другое">Другое</option>
+                    </select>
+
+                    <label for="allocation-amount">Сумма, сом</label>
+                    <input
+                        class="input"
+                        type="number"
+                        id="allocation-amount"
+                        name="amount"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="Например, 5000"
+                        required
+                    >
+
+                    <button class="button full-button" type="submit">
+                        Сохранить распределение
+                    </button>
+                </form>
+            </article>
+
+            <article class="content-card">
+                <div class="card-icon">♻️</div>
+                <h3>Учёт пищевых отходов</h3>
+                <p class="card-description">
+                    Укажи, сколько еды приготовили и сколько осталось.
+                </p>
+
+                <form method="post" class="stack-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="record_type" value="waste">
+
+                    <label for="prepared-kg">Приготовлено, кг</label>
+                    <input
+                        class="input"
+                        type="number"
+                        id="prepared-kg"
+                        name="prepared_kg"
+                        min="0"
+                        step="0.01"
+                        placeholder="Например, 50"
+                        required
+                    >
+
+                    <label for="wasted-kg">Осталось, кг</label>
+                    <input
+                        class="input"
+                        type="number"
+                        id="wasted-kg"
+                        name="wasted_kg"
+                        min="0"
+                        step="0.01"
+                        placeholder="Например, 4"
+                        required
+                    >
+
+                    <button class="button full-button" type="submit">
+                        Сохранить данные
+                    </button>
+                </form>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">ФИНАНСОВАЯ ИСТОРИЯ</span>
+                <h2>Расходы</h2>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Название</th>
+                        <th>Категория</th>
+                        <th>Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in expenses %}
+                        <tr>
+                            <td>{{ item.date|date:"d.m.Y" }}</td>
+                            <td>{{ item.title }}</td>
+                            <td><span class="table-category">{{ item.category }}</span></td>
+                            <td class="table-amount">{{ item.amount|floatformat:2 }} сом</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="empty-row">
+                                Пока расходов нет.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">ИСПОЛЬЗОВАНИЕ БЮДЖЕТА</span>
+                <h2>Распределение средств</h2>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Название</th>
+                        <th>Направление</th>
+                        <th>Сумма</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in allocations %}
+                        <tr>
+                            <td>{{ item.date|date:"d.m.Y" }}</td>
+                            <td>{{ item.title }}</td>
+                            <td><span class="table-category">{{ item.category }}</span></td>
+                            <td class="table-amount">{{ item.amount|floatformat:2 }} сом</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="empty-row">
+                                Пока нет записей о распределении средств.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">ЭКОЛОГИЯ И ЭКОНОМИЯ</span>
+                <h2>Пищевые отходы</h2>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Приготовлено</th>
+                        <th>Осталось</th>
+                        <th>Доля отходов</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in waste_records %}
+                        <tr>
+                            <td>{{ item.date|date:"d.m.Y" }}</td>
+                            <td>{{ item.prepared_kg }} кг</td>
+                            <td>{{ item.wasted_kg }} кг</td>
+                            <td>
+                                <span class="waste-percent">
+                                    {{ item.waste_percent|floatformat:1 }}%
+                                </span>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="empty-row">
+                                Пока данные об отходах не добавлены.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="accounting-footer-note">
+        <div class="note-icon">🌿</div>
+        <div>
+            <h3>Каждая запись помогает планировать лучше</h3>
+            <p>
+                Регулярный учёт расходов и пищевых отходов помогает
+                оценивать работу столовой и принимать более обоснованные решения.
+            </p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

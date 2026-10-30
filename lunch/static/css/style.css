@@ -1,0 +1,967 @@
+
+/* =========================================
+   SMARTBITE AI — MODERN DESIGN SYSTEM
+   ========================================= */
+
+   :root {
+    --bg: #08130f;
+    --bg-soft: #0d1b15;
+    --surface: #12241b;
+    --surface-2: #192f24;
+    --surface-3: #203b2c;
+
+    --border: #2b4435;
+    --border-light: #385643;
+
+    --text: #f2f7f2;
+    --text-secondary: #b8c8bc;
+    --text-muted: #829789;
+
+    --green: #35a66b;
+    --green-hover: #43bd7d;
+    --lime: #c9f36b;
+    --lime-dark: #a8d84b;
+
+    --danger: #ff7777;
+    --warning: #ffd477;
+    --blue: #86c8ff;
+
+    --radius-sm: 10px;
+    --radius: 16px;
+    --radius-lg: 23px;
+    --radius-xl: 30px;
+
+    --shadow: 0 12px 35px rgba(0, 0, 0, .18);
+    --shadow-hover: 0 18px 45px rgba(0, 0, 0, .28);
+}
+
+/* ===== ОСНОВА ===== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    background: var(--bg);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Arial, sans-serif;
+}
+
+::selection {
+    background: var(--lime);
+    color: #102016;
+}
+
+a {
+    color: var(--lime);
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+a:hover {
+    color: #e0ff9c;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+    font-size: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--lime);
+    outline-offset: 3px;
+}
+
+/* ===== ЗАГОЛОВКИ ===== */
+
+h1,
+h2,
+h3,
+h4 {
+    color: var(--text);
+    font-weight: 750;
+    line-height: 1.2;
+    letter-spacing: -.035em;
+    margin-top: 0;
+}
+
+h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin-bottom: 18px;
+}
+
+h2 {
+    font-size: clamp(1.55rem, 2.5vw, 2.2rem);
+    margin-bottom: 16px;
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+}
+
+p {
+    color: var(--text-secondary);
+    margin-top: 0;
+}
+
+small,
+.muted {
+    color: var(--text-muted);
+}
+
+/* ===== ШАПКА И НАВИГАЦИЯ ===== */
+
+header,
+.site-header,
+.navbar {
+    position: relative;
+    z-index: 10;
+    background: #0b1912;
+    border-bottom: 1px solid var(--border);
+}
+
+header {
+    padding: 0;
+}
+
+.site-header,
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px clamp(20px, 5vw, 76px);
+}
+
+header nav,
+.navbar nav,
+.site-header nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+header nav a,
+.navbar nav a,
+.site-header nav a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    transition: background .2s ease, color .2s ease,
+        border-color .2s ease;
+}
+
+header nav a:hover,
+.navbar nav a:hover,
+.site-header nav a:hover {
+    color: var(--text);
+    background: var(--surface-2);
+    border-color: var(--border);
+}
+
+/* ===== ЛОГОТИП ===== */
+
+.logo,
+.brand,
+.site-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    color: var(--text);
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -.7px;
+}
+
+.logo:hover,
+.brand:hover,
+.site-logo:hover {
+    color: var(--lime);
+}
+
+/* ===== ОСНОВНОЙ КОНТЕЙНЕР ===== */
+
+main,
+.main-content,
+.container {
+    width: min(1240px, calc(100% - 48px));
+    margin-left: auto;
+    margin-right: auto;
+}
+
+main {
+    min-height: 65vh;
+    padding-top: 48px;
+    padding-bottom: 76px;
+}
+
+section {
+    margin-bottom: 34px;
+}
+
+.page-header {
+    margin-bottom: 34px;
+}
+
+.page-header p {
+    max-width: 700px;
+    font-size: 16px;
+}
+
+/* ===== ФОНОВЫЕ ИЗОБРАЖЕНИЯ ===== */
+
+/* Фотографии остаются видимыми,
+   но текст поверх них получает контраст. */
+
+.hero,
+.menu-hero,
+.home-hero,
+.kitchen-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: clamp(28px, 5vw, 64px);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    background-color: #10291b;
+    background-position: center;
+    background-size: cover;
+    box-shadow: var(--shadow);
+}
+
+.hero::before,
+.menu-hero::before,
+.home-hero::before,
+.kitchen-hero::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(5, 19, 12, .96) 0%,
+            rgba(5, 19, 12, .84) 48%,
+            rgba(5, 19, 12, .30) 100%
+        );
+    pointer-events: none;
+}
+
+.hero h1,
+.hero h2,
+.hero h3,
+.hero p,
+.menu-hero h1,
+.menu-hero h2,
+.menu-hero p,
+.home-hero h1,
+.home-hero h2,
+.home-hero p,
+.kitchen-hero h1,
+.kitchen-hero h2,
+.kitchen-hero p {
+    position: relative;
+    z-index: 1;
+}
+
+.hero p,
+.menu-hero p,
+.home-hero p,
+.kitchen-hero p {
+    max-width: 650px;
+    color: #e0eae2;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+/* ===== КНОПКИ ===== */
+
+.btn,
+button,
+input[type="submit"],
+input[type="button"],
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 46px;
+    padding: 12px 21px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: var(--lime);
+    color: #142014;
+    font-weight: 750;
+    line-height: 1.2;
+    text-align: center;
+    transition: transform .2s ease, background .2s ease,
+        box-shadow .2s ease;
+}
+
+.btn:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.button:hover {
+    background: #d9ff91;
+    color: #102016;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .2);
+}
+
+.btn-secondary,
+.button-secondary {
+    background: var(--surface-2);
+    border-color: var(--border-light);
+    color: var(--text);
+}
+
+.btn-secondary:hover,
+.button-secondary:hover {
+    background: var(--surface-3);
+    color: var(--text);
+}
+
+.btn-danger,
+.button-danger {
+    background: #4b2526;
+    border-color: #784041;
+    color: #ffdada;
+}
+
+.btn-danger:hover,
+.button-danger:hover {
+    background: #653033;
+    color: #fff;
+}
+
+/* ===== КАРТОЧКИ ===== */
+
+.card,
+.feature-card,
+.stat-card,
+.meal-card,
+.menu-card,
+.kitchen-card,
+.accounting-card {
+    min-width: 0;
+    padding: 25px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .10);
+    transition: border-color .2s ease, transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.feature-card:hover,
+.meal-card:hover,
+.menu-card:hover {
+    transform: translateY(-4px);
+    border-color: #4d805d;
+    box-shadow: var(--shadow-hover);
+}
+
+.card h2,
+.card h3,
+.feature-card h2,
+.feature-card h3,
+.meal-card h2,
+.meal-card h3,
+.menu-card h2,
+.menu-card h3 {
+    color: var(--text);
+}
+
+.card p,
+.feature-card p,
+.meal-card p,
+.menu-card p {
+    color: var(--text-secondary);
+}
+
+/* ===== СЕТКИ КАРТОЧЕК ===== */
+
+.feature-grid,
+.stats-grid,
+.menu-grid,
+.meals-grid,
+.card-grid,
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.feature-card,
+.meal-card,
+.menu-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.feature-card > :last-child,
+.meal-card > :last-child,
+.menu-card > :last-child {
+    margin-bottom: 0;
+}
+
+/* ===== ЦИФРЫ И СТАТИСТИКА ===== */
+
+.stat-card {
+    padding: 23px;
+    background: linear-gradient(145deg, #173424, #10251a);
+}
+
+.stat-card .stat-label,
+.stat-label {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.stat-card .stat-value,
+.stat-value {
+    display: block;
+    color: var(--lime);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -.04em;
+}
+
+.stat-card p {
+    margin: 10px 0 0;
+    font-size: 13px;
+}
+
+/* ===== ФОРМЫ ===== */
+
+form {
+    min-width: 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #e4eee6;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+select,
+textarea {
+    width: 100%;
+    min-height: 47px;
+    padding: 12px 14px;
+    border: 1px solid #385343;
+    border-radius: 11px;
+    outline: none;
+    background: #0a1911;
+    color: var(--text);
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #718578;
+    opacity: 1;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--lime);
+    box-shadow: 0 0 0 3px rgba(201, 243, 107, .12);
+}
+
+select option {
+    background: #12241b;
+    color: var(--text);
+}
+
+form p {
+    margin-bottom: 18px;
+}
+
+form button,
+form input[type="submit"] {
+    margin-top: 8px;
+}
+
+/* ===== ТАБЛИЦЫ ===== */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    color: var(--text);
+}
+
+thead {
+    background: #1b3425;
+}
+
+th {
+    color: #dce9df;
+    font-size: 12px;
+    font-weight: 750;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+th,
+td {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+td {
+    color: var(--text-secondary);
+}
+
+tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+tbody tr:hover {
+    background: #172c20;
+}
+
+/* ===== СТАТУСЫ ===== */
+
+.badge,
+.status,
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 11px;
+    border: 1px solid var(--border-light);
+    border-radius: 999px;
+    background: var(--surface-2);
+    color: #dce9df;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.status-success,
+.badge-success {
+    border-color: #326b48;
+    background: #173e29;
+    color: #a5f0bc;
+}
+
+.status-warning,
+.badge-warning {
+    border-color: #79643b;
+    background: #3b321e;
+    color: #ffe09a;
+}
+
+.status-danger,
+.badge-danger {
+    border-color: #784041;
+    background: #412427;
+    color: #ffb4b4;
+}
+
+/* ===== МЕНЮ И БЛЮДА ===== */
+
+.meal-card,
+.menu-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+.meal-card img,
+.menu-card img,
+.dish-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: #20372a;
+}
+
+.meal-card-content,
+.menu-card-content,
+.dish-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 22px;
+}
+
+.meal-card-content p,
+.menu-card-content p,
+.dish-info p {
+    margin-bottom: 0;
+}
+
+.price,
+.meal-price {
+    color: var(--lime);
+    font-size: 22px;
+    font-weight: 800;
+}
+
+/* ===== КУХНЯ ===== */
+
+.kitchen-page {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.kitchen-header {
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(130deg, #183d29, #10251a);
+}
+
+.kitchen-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.kitchen-stat-card {
+    padding: 23px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.kitchen-section {
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-soft);
+}
+
+.meal-preparation-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.meal-preparation-card h3 {
+    margin-bottom: 7px;
+}
+
+.meal-preparation-card p {
+    margin-bottom: 0;
+}
+
+/* ===== ЭКОНОМИКА И БУХГАЛТЕРИЯ ===== */
+
+.accounting-page,
+.economics-page {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.accounting-page .accounting-card,
+.economics-page .accounting-card {
+    padding: 26px;
+}
+
+.accounting-page .accounting-grid,
+.economics-page .economics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.accounting-page .amount,
+.economics-page .amount {
+    color: var(--lime);
+    font-size: 24px;
+    font-weight: 800;
+}
+
+/* ===== ИКОНКИ И РАЗДЕЛИТЕЛИ ===== */
+
+.icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    border: 1px solid #3d6649;
+    border-radius: 14px;
+    background: #1b3c28;
+    color: var(--lime);
+    font-size: 23px;
+}
+
+hr {
+    height: 1px;
+    margin: 26px 0;
+    border: 0;
+    background: var(--border);
+}
+
+/* ===== УВЕДОМЛЕНИЯ ===== */
+
+.alert,
+.message {
+    padding: 15px 18px;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    background: var(--surface-2);
+    color: var(--text);
+}
+
+.alert-success {
+    border-color: #326b48;
+    background: #173e29;
+    color: #b3f4c5;
+}
+
+.alert-error,
+.alert-danger {
+    border-color: #784041;
+    background: #412427;
+    color: #ffc0c0;
+}
+
+.alert-warning {
+    border-color: #79643b;
+    background: #3b321e;
+    color: #ffe09a;
+}
+
+/* ===== ПОДВАЛ ===== */
+
+footer,
+.site-footer {
+    padding: 28px 24px;
+    border-top: 1px solid var(--border);
+    background: #09150f;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+footer p,
+.site-footer p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* ===== АДАПТАЦИЯ ПОД ПЛАНШЕТ ===== */
+
+@media (max-width: 1000px) {
+    .feature-grid,
+    .menu-grid,
+    .meals-grid,
+    .card-grid,
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .site-header,
+    .navbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    header nav,
+    .navbar nav,
+    .site-header nav {
+        justify-content: flex-start;
+    }
+}
+
+/* ===== АДАПТАЦИЯ ПОД ТЕЛЕФОН ===== */
+
+@media (max-width: 640px) {
+    body {
+        font-size: 14px;
+    }
+
+    main,
+    .main-content,
+    .container {
+        width: calc(100% - 28px);
+    }
+
+    main {
+        padding-top: 28px;
+        padding-bottom: 44px;
+    }
+
+    .site-header,
+    .navbar {
+        gap: 12px;
+        padding: 16px;
+    }
+
+    header nav,
+    .navbar nav,
+    .site-header nav {
+        gap: 5px;
+    }
+
+    header nav a,
+    .navbar nav a,
+    .site-header nav a {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .feature-grid,
+    .stats-grid,
+    .menu-grid,
+    .meals-grid,
+    .card-grid,
+    .dashboard-grid,
+    .kitchen-stats,
+    .accounting-page .accounting-grid,
+    .economics-page .economics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero,
+    .menu-hero,
+    .home-hero,
+    .kitchen-hero {
+        padding: 28px 22px;
+        border-radius: var(--radius-lg);
+    }
+
+    .hero::before,
+    .menu-hero::before,
+    .home-hero::before,
+    .kitchen-hero::before {
+        background: rgba(5, 19, 12, .78);
+    }
+
+    .card,
+    .feature-card,
+    .stat-card,
+    .kitchen-section,
+    .kitchen-stat-card,
+    .accounting-page .accounting-card,
+    .economics-page .accounting-card {
+        padding: 19px;
+    }
+
+    .meal-preparation-card {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 18px;
+    }
+
+    .meal-card img,
+    .menu-card img,
+    .dish-image {
+        height: 190px;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        white-space: nowrap;
+    }
+
+    button,
+    .btn,
+    .button,
+    input[type="submit"] {
+        max-width: 100%;
+    }
+}
+
+/* ===== УМЕНЬШЕННАЯ АНИМАЦИЯ ===== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+    }
+}

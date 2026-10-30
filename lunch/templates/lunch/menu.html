@@ -1,0 +1,244 @@
+
+{% extends "lunch/base.html" %}
+{% load static %}
+
+{% block title %}Меню — SmartBite AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/menu.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="restaurant-menu">
+
+    <section class="menu-hero">
+        <div class="menu-hero-content">
+            <span class="menu-eyebrow">SMARTBITE AI · ВКУСНО И С ПОЛЬЗОЙ</span>
+            <h1>Вкусный обед<br>каждый день</h1>
+            <p>
+                Выбирай любимые блюда, заказывай заранее
+                и помогай нам сокращать пищевые отходы.
+            </p>
+
+            <a href="#menu-dishes" class="menu-primary-button">
+                Выбрать обед <span>↗</span>
+            </a>
+
+            <div class="menu-hero-note">
+                <span>🌿</span>
+                <span>Меньше отходов — больше пользы</span>
+            </div>
+        </div>
+
+        <div class="menu-hero-image">
+            <img
+                src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85"
+                alt="Свежий салат с овощами"
+            >
+            <div class="menu-image-caption">
+                <span>🥗</span>
+                <div>
+                    <strong>Свежо и вкусно</strong>
+                    <small>Твой обед начинается здесь</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="menu-benefits">
+        <div class="benefit-item">
+            <span class="benefit-icon">🍽</span>
+            <div>
+                <strong>Выбирай заранее</strong>
+                <p>Планируй свой обед</p>
+            </div>
+        </div>
+
+        <div class="benefit-divider"></div>
+
+        <div class="benefit-item">
+            <span class="benefit-icon">🌱</span>
+            <div>
+                <strong>Меньше отходов</strong>
+                <p>Готовим по заказам</p>
+            </div>
+        </div>
+
+        <div class="benefit-divider"></div>
+
+        <div class="benefit-item">
+            <span class="benefit-icon">💚</span>
+            <div>
+                <strong>Удобно для всех</strong>
+                <p>Простой выбор блюд</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="menu-about">
+        <div class="menu-about-text">
+            <span class="menu-eyebrow">НАША ФИЛОСОФИЯ</span>
+            <h2>Еда, которая<br>делает день лучше</h2>
+            <p>
+                SmartBite AI помогает школьной столовой готовить
+                нужное количество порций. Ученики выбирают обед
+                заранее, а повара получают более точный список заказов.
+            </p>
+            <a href="#menu-dishes" class="menu-secondary-button">
+                Посмотреть блюда →
+            </a>
+        </div>
+
+        <div class="menu-about-image">
+            <img
+                src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=85"
+                alt="Полезная еда и свежие овощи"
+                loading="lazy"
+            >
+        </div>
+    </section>
+
+    <section class="menu-values">
+        <article class="value-card">
+            <span class="value-icon">🥦</span>
+            <h3>Осознанное питание</h3>
+            <p>Разнообразные блюда помогают сделать обед приятной частью школьного дня.</p>
+        </article>
+
+        <article class="value-card">
+            <span class="value-icon">📋</span>
+            <h3>Умное планирование</h3>
+            <p>Предварительный выбор помогает столовой лучше планировать приготовление еды.</p>
+        </article>
+
+        <article class="value-card">
+            <span class="value-icon">♻️</span>
+            <h3>Меньше отходов</h3>
+            <p>Точное количество заказов помогает разумнее использовать продукты.</p>
+        </article>
+    </section>
+
+    <section class="menu-dishes-section" id="menu-dishes">
+        <div class="menu-section-heading">
+            <span class="menu-eyebrow">МЕНЮ СТОЛОВОЙ</span>
+            <h2>Выбери свой обед</h2>
+            <p>Найди любимое блюдо и оформи заказ на завтра.</p>
+            <span class="menu-date">
+                Обед на {{ tomorrow|date:"d.m.Y" }}
+            </span>
+        </div>
+
+        {% if cutoff_passed %}
+            <div class="menu-status">
+                <span>🕘</span>
+                <div>
+                    <strong>Приём заказов на завтра завершён</strong>
+                    <p>Заказы принимаются до 09:00.</p>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if meals %}
+            <form method="post" class="menu-order-form">
+                {% csrf_token %}
+
+                <div class="menu-dishes-grid">
+                    {% for meal in meals %}
+                        <label class="dish-card">
+                            <input
+                                type="radio"
+                                name="meal"
+                                value="{{ meal.id }}"
+                                {% if forloop.first %}checked{% endif %}
+                                {% if cutoff_passed %}disabled{% endif %}
+                                required
+                            >
+
+                            <div class="dish-photo-wrap">
+                                {% if meal.image_url %}
+                                    <img
+                                        class="dish-photo"
+                                        src="{{ meal.image_url }}"
+                                        alt="{{ meal.name }}"
+                                        loading="lazy"
+                                    >
+                                {% else %}
+                                    <div class="dish-photo-placeholder">🍲</div>
+                                {% endif %}
+
+                                <span class="dish-badge">Обед</span>
+                            </div>
+
+                            <div class="dish-details">
+                                <h3>{{ meal.name }}</h3>
+                                <p>
+                                    {{ meal.description|default:"Вкусный обед для хорошего дня." }}
+                                </p>
+
+                                <div class="dish-card-bottom">
+                                    <strong>{{ meal.price }} сом</strong>
+                                    <span class="dish-select-label">○ Выбрать</span>
+                                </div>
+                            </div>
+                        </label>
+                    {% endfor %}
+                </div>
+
+                {% if not cutoff_passed %}
+                    <section class="menu-checkout">
+                        <div>
+                            <span class="menu-eyebrow">ПОСЛЕДНИЙ ШАГ</span>
+                            <h2>Оформи свой заказ</h2>
+                            <p>Введи имя и класс, чтобы столовая знала, для кого готовить.</p>
+                        </div>
+
+                        <div class="menu-form-fields">
+                            <label>
+                                Имя и фамилия
+                                <input
+                                    type="text"
+                                    name="student_name"
+                                    placeholder="Например, Алина Иванова"
+                                    maxlength="100"
+                                    required
+                                >
+                            </label>
+
+                            <label>
+                                Класс
+                                <input
+                                    type="text"
+                                    name="student_class"
+                                    placeholder="Например, 8А"
+                                    maxlength="20"
+                                    required
+                                >
+                            </label>
+                        </div>
+
+                        <button type="submit" class="menu-submit-button">
+                            Подтвердить заказ <span>→</span>
+                        </button>
+                    </section>
+                {% endif %}
+            </form>
+        {% else %}
+            <div class="menu-empty">
+                <span>🍽️</span>
+                <h3>Блюда скоро появятся</h3>
+                <p>Пока нет доступных блюд. Попробуй зайти позже.</p>
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="menu-cta">
+        <span class="menu-eyebrow">SMARTBITE AI</span>
+        <h2>Планируем умнее.<br>Питаемся лучше.</h2>
+        <p>Каждый заказ помогает столовой готовить осознаннее.</p>
+        <a href="#menu-dishes" class="menu-primary-button">
+            Выбрать блюдо ↑
+        </a>
+    </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SmartBite AI{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<header class="site-header">
+    <a href="/" class="logo">
+        <span class="logo-mark">S</span>
+        SmartBite <span class="logo-ai">AI</span>
+    </a>
+
+    <nav class="navigation">
+        <a href="/">Главная</a>
+        <a href="/menu/">Меню</a>
+        <a href="/assistant/">ИИ-помощник</a>
+
+        {% if user.is_authenticated and user.is_staff %}
+            <a href="/kitchen/">Кухня</a>
+            <a href="/economics/">Экономика</a>
+            <a href="/accounting/">Бухгалтерия</a>
+            <a href="/admin/">Администрирование</a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <form method="post" action="/logout/" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="nav-button">Выйти</button>
+            </form>
+        {% else %}
+            <a href="/login/">Войти</a>
+        {% endif %}
+    </nav>
+</header>
+
+<main class="site-main">
+    {% if messages %}
+        <div class="message-list">
+            {% for message in messages %}
+                <div class="notice">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+    <div class="footer-brand">SmartBite AI</div>
+    <p>Сайт разработан юными программистами ОШ №2</p>
+    <p>Город Кызыл-Кия Баткенская область</p>
+    <p>&#174 2026 год &#174</p>
+</footer>
+
+</body>
+</html>

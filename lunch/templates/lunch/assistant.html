@@ -1,0 +1,49 @@
+
+{% extends "lunch/base.html" %}
+
+{% block content %}
+<section class="container">
+    <h1>Твой AI-помощник</h1>
+    <p>
+        Твой умный помощник по питанию, продуктам
+        и планированию бюджета.
+    </p>
+
+    <div class="chat-container">
+        <div class="chat-messages">
+            {% if not chat_messages %}
+                <div class="message message-ai">
+                    Привет! Я AI-помощник SmartBite AI.
+                    Расскажи, какие продукты у тебя есть
+                    и какой у тебя бюджет.
+                </div>
+            {% endif %}
+        
+            {% for item in chat_messages %}
+                {% if item.role == "user" %}
+                    <div class="message message-user">
+                        {{ item.text }}
+                    </div>
+                {% else %}
+                <div class="message message-ai">{{ item.text|safe }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <form class="chat-form" method="post">
+            {% csrf_token %}
+
+            <input
+                type="text"
+                name="message"
+                placeholder="Например: есть рис, яйца и курица..."
+                aria-label="Сообщение для AI-помощника"
+                
+                required
+            >
+
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

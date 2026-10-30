@@ -1,0 +1,138 @@
+
+{% extends "lunch/base.html" %}
+
+{% block title %}Панель столовой — SmartBite AI{% endblock %}
+
+{% block content %}
+<div class="kitchen-page">
+
+    <section class="kitchen-hero">
+        <div>
+            <span class="kitchen-eyebrow">SMARTBITE AI · ДЛЯ СОТРУДНИКОВ</span>
+            <h1>План питания</h1>
+            <p>Все заказы учеников и количество порций для приготовления.</p>
+            <div class="kitchen-date">📅 Заказы на {{ tomorrow|date:"d.m.Y" }}</div>
+        </div>
+        <div class="kitchen-hero-icon">🍲</div>
+    </section>
+
+    <section class="kitchen-stats">
+        <article class="kitchen-stat">
+            <div class="kitchen-stat-icon">📋</div>
+            <p>Активные заказы</p>
+            <strong>{{ total_orders }}</strong>
+            <span>порций по заказам</span>
+        </article>
+
+        <article class="kitchen-stat">
+            <div class="kitchen-stat-icon">🍽️</div>
+            <p>Варианты блюд</p>
+            <strong>{{ totals|length }}</strong>
+            <span>блюд в заказах</span>
+        </article>
+    </section>
+
+    <section class="kitchen-section">
+        <div class="kitchen-section-heading">
+            <div>
+                <span class="kitchen-eyebrow">ПОДГОТОВКА</span>
+                <h2>Сколько приготовить?</h2>
+                <p>Количество порций каждого блюда на завтра.</p>
+            </div>
+        </div>
+
+        <div class="kitchen-meal-grid">
+            {% for item in totals %}
+                <article class="kitchen-meal-card">
+                    <div class="kitchen-meal-icon">🥗</div>
+                    <div class="kitchen-meal-info">
+                        <h3>{{ item.meal__name }}</h3>
+                        <p>Необходимое количество</p>
+                    </div>
+                    <div class="kitchen-portion">
+                        <strong>{{ item.total }}</strong>
+                        <span>порций</span>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="kitchen-empty">
+                    <span>🌱</span>
+                    <h3>Пока нет заказов</h3>
+                    <p>Когда ученики выберут блюда, сводка появится здесь.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="kitchen-section">
+        <div class="kitchen-section-heading">
+            <div>
+                <span class="kitchen-eyebrow">УЧЕНИКИ</span>
+                <h2>Список заказов</h2>
+                <p>Проверь выбранные блюда и отмечай готовность.</p>
+            </div>
+            <span class="kitchen-count">{{ total_orders }} заказов</span>
+        </div>
+
+        <div class="kitchen-table-wrap">
+            <table class="kitchen-table">
+                <thead>
+                    <tr>
+                        <th>Ученик</th>
+                        <th>Класс</th>
+                        <th>Выбранное блюдо</th>
+                        <th>Статус</th>
+                        <th>Изменить</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>
+                                <div class="kitchen-student">
+                                    <span class="kitchen-avatar">👤</span>
+                                    <strong>{{ order.student_name }}</strong>
+                                </div>
+                            </td>
+                            <td><span class="kitchen-class">{{ order.student_class }}</span></td>
+                            <td>{{ order.meal.name }}</td>
+                            <td>
+                                <span class="kitchen-status kitchen-status-{{ order.status }}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <form method="post" class="kitchen-status-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="order_id" value="{{ order.id }}">
+
+                                    <select name="status" aria-label="Статус заказа">
+                                        <option value="new" {% if order.status == "new" %}selected{% endif %}>Новый</option>
+                                        <option value="prepared" {% if order.status == "prepared" %}selected{% endif %}>Приготовлен</option>
+                                        <option value="cancelled">Отменить</option>
+                                    </select>
+
+                                    <button type="submit">Сохранить</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5">
+                                <div class="kitchen-empty-inline">
+                                    Заказов на эту дату пока нет.
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="kitchen-footer-note">
+        🌿 SmartBite AI — меньше пищевых отходов, больше пользы.
+    </div>
+
+</div>
+{% endblock %}

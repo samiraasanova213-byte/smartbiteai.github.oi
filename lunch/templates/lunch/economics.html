@@ -1,0 +1,171 @@
+{% extends "lunch/base.html" %}
+
+{% block title %}Экономика — SmartBite AI{% endblock %}
+
+{% block content %}
+<section class="dashboard-header">
+    <div>
+        <div class="eyebrow">АНАЛИТИКА И ПЛАНИРОВАНИЕ</div>
+        <h1>Экономика столовой</h1>
+        <p>Расчёт бюджета и потенциальной экономии от сокращения пищевых отходов.</p>
+    </div>
+    <div class="dashboard-icon">📊</div>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card">
+        <div class="stat-icon purple">💰</div>
+        <div class="stat-number">{{ monthly_budget|floatformat:2 }}</div>
+        <div class="stat-label">Расчётный бюджет за месяц, сом</div>
+    </article>
+    <article class="stat-card">
+        <div class="stat-icon green">🌱</div>
+        <div class="stat-number">{{ estimated_savings|floatformat:2 }}</div>
+        <div class="stat-label">Потенциальная экономия, сом</div>
+    </article>
+    <article class="stat-card">
+        <div class="stat-icon orange">🎯</div>
+        <div class="stat-number">{{ settings_obj.target_waste_percent }}%</div>
+        <div class="stat-label">Целевой уровень отходов</div>
+    </article>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <div class="eyebrow">МОДЕЛЬ РАСЧЁТА</div>
+            <h2>Как работает экономика?</h2>
+        </div>
+    </div>
+
+    <div class="economics-grid">
+        <article class="content-card">
+            <div class="card-icon">🧮</div>
+            <h3>Исходные данные</h3>
+            <div class="data-row">
+                <span>Питающихся в день</span>
+                <strong>{{ settings_obj.students_per_day }}</strong>
+            </div>
+            <div class="data-row">
+                <span>Учебных дней в месяц</span>
+                <strong>{{ settings_obj.days_per_month }}</strong>
+            </div>
+            <div class="data-row">
+                <span>Бюджет на порцию</span>
+                <strong>{{ settings_obj.price_per_meal }} сом</strong>
+            </div>
+            <div class="data-row">
+                <span>Текущие отходы</span>
+                <strong>{{ settings_obj.current_waste_percent }}%</strong>
+            </div>
+        </article>
+
+        <article class="content-card">
+            <div class="card-icon">📈</div>
+            <h3>Сценарий сокращения отходов</h3>
+            <div class="progress-label">
+                <span>Сейчас</span>
+                <strong>{{ settings_obj.current_waste_percent }}%</strong>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill progress-current"
+                    style="width: {{ settings_obj.current_waste_percent }}%;">
+                </div>
+            </div>
+
+            <div class="progress-label">
+                <span>Цель</span>
+                <strong>{{ settings_obj.target_waste_percent }}%</strong>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill progress-target"
+                    style="width: {{ settings_obj.target_waste_percent }}%;"></div>
+            </div>
+
+            <p class="muted">
+                Это оценочный сценарий. Реальную экономию нужно проверять
+                по фактическим остаткам и расходам столовой.
+            </p>
+        </article>
+    </div>
+</section>
+
+<section class="impact-banner">
+    <div class="impact-icon">💡</div>
+    <div>
+        <h3>На что можно направить экономию?</h3>
+        <p>На полезные перекусы, оборудование столовой, зону отдыха учеников и другие нужды школы — после проверки фактических результатов.</p>
+    </div>
+</section>
+
+
+
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <div class="eyebrow">НАШ РЕЗУЛЬТАТ</div>
+            <h2>Достижение цели</h2>
+        </div>
+    </div>
+
+    <article class="content-card">
+        {% if latest_waste %}
+            <h3>Фактические отходы: {{ waste_percent|floatformat:1 }}%</h3>
+            <p>Наша цель — не более {{ target_waste_percent }}%.</p>
+
+            {% if waste_percent <= target_waste_percent %}
+                <p>Цель достигнута!</p>
+            {% else %}
+                <p>Пока выше целевого уровня. Продолжаем сокращать отходы.</p>
+            {% endif %}
+        {% else %}
+            <p>Пока нет фактических данных. Добавь запись в разделе «Бухгалтерия».</p>
+        {% endif %}
+    </article>
+</section>
+
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <div class="eyebrow">ВИЗУАЛЬНАЯ АНАЛИТИКА</div>
+            <h2>Контроль пищевых отходов</h2>
+            <p>Сравнение фактического результата с целевым показателем.</p>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <div class="data-row">
+            <span>Фактический уровень отходов</span>
+            <strong>{{ waste_percent|floatformat:1 }}%</strong>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-fill progress-current"
+                style="width: {% if waste_percent > 100 %}100{% else %}{{ waste_percent }}{% endif %}%;"></div>
+        </div>
+
+        <div class="data-row">
+            <span>Целевой уровень</span>
+            <strong>{{ target_waste_percent }}%</strong>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-fill progress-target"
+                style="width: {% if target_waste_percent > 100 %}100{% else %}{{ target_waste_percent }}{% endif %}%;"></div>
+        </div>
+
+        {% if latest_waste %}
+            {% if waste_percent <= target_waste_percent %}
+                <p>Целевой показатель достигнут.</p>
+            {% else %}
+                <p>Нужно продолжить сокращение пищевых отходов.</p>
+            {% endif %}
+        {% else %}
+            <p class="muted">Добавь фактические данные в бухгалтерии, чтобы начать анализ.</p>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

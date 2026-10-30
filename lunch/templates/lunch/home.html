@@ -1,0 +1,178 @@
+{% extends "lunch/base.html" %}
+
+{% block title %}Главная — SmartBite AI{% endblock %}
+
+{% block content %}
+<div class="home-page">
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="eyebrow">УМНАЯ ШКОЛЬНАЯ СТОЛОВАЯ</span>
+
+            <h1>Питание, которое<br>думает о будущем</h1>
+
+            <p>
+                SmartBite AI помогает школьникам выбирать обед заранее,
+                кухне — готовить нужное количество порций, а школе —
+                сокращать пищевые отходы.
+            </p>
+
+            <div class="hero-actions">
+                <a href="/menu/" class="button">Посмотреть меню</a>
+                <a href="/assistant/" class="button button-secondary">
+                    Спросить ИИ-помощника
+                </a>
+            </div>
+
+            <div class="hero-note">
+                <span class="status-dot"></span>
+                Умное планирование школьного питания
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-emoji">🥗</div>
+            <div class="hero-visual-title">Еда без лишних отходов</div>
+            <p>Планируем порции заранее</p>
+            <div class="hero-tags">
+                <span>Польза</span>
+                <span>Экономия</span>
+                <span>Экология</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="section-intro">
+            <span class="eyebrow">КАК ЭТО РАБОТАЕТ</span>
+            <h2>Всё начинается с выбора</h2>
+            <p>Три простых шага помогают столовой работать эффективнее.</p>
+        </div>
+
+        <div class="feature-grid">
+            <article class="feature-card">
+                <div class="feature-icon">🍽️</div>
+                <span class="feature-number">01</span>
+                <h3>Выбор блюда</h3>
+                <p>Ученик заранее выбирает обед из доступного меню.</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <span class="feature-number">02</span>
+                <h3>Умный подсчёт</h3>
+                <p>Заказы помогают понять, сколько порций нужно приготовить.</p>
+            </article>
+
+            <article class="feature-card">
+                <div class="feature-icon">🌱</div>
+                <span class="feature-number">03</span>
+                <h3>Меньше отходов</h3>
+                <p>Планирование помогает рациональнее использовать продукты.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="home-section order-section">
+        <div class="section-intro">
+            <span class="eyebrow">ПРЕДЗАКАЗ</span>
+            <h2>Выбери обед на завтра</h2>
+            <p>Заполни форму и выбери блюдо из доступного меню.</p>
+        </div>
+
+        {% if cutoff_passed %}
+            <div class="notice">
+                Приём заказов на завтра уже завершён.
+                Следи за обновлениями меню.
+            </div>
+        {% else %}
+            <form method="post" class="order-form">
+                {% csrf_token %}
+
+                <label for="student_name">Имя и фамилия</label>
+                <input
+                    type="text"
+                    id="student_name"
+                    name="student_name"
+                    placeholder="Например, Анна Иванова"
+                    required
+                >
+
+                <label for="student_class">Класс</label>
+                <input
+                    type="text"
+                    id="student_class"
+                    name="student_class"
+                    placeholder="Например, 8А"
+                    required
+                >
+
+                <label for="meal">Выбери блюдо</label>
+                <select id="meal" name="meal" required>
+                    <option value="">Выбери блюдо из списка</option>
+                    {% for meal in meals %}
+                        <option value="{{ meal.id }}">
+                            {{ meal.name }} — {{ meal.price }} сом
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="button">
+                    Заказать обед
+                </button>
+
+                <p class="form-hint">
+                    Отправляя заказ, проверь правильность введённых данных.
+                </p>
+            </form>
+        {% endif %}
+    </section>
+
+    <section class="home-section">
+        <div class="section-intro">
+            <span class="eyebrow">ПЛАТФОРМА</span>
+            <h2>Инструменты SmartBite AI</h2>
+        </div>
+
+        <div class="feature-grid">
+            <a href="/menu/" class="feature-card feature-link">
+                <div class="feature-icon">📋</div>
+                <h3>Меню</h3>
+                <p>Просматривай доступные блюда и их стоимость.</p>
+                <span class="card-link">Открыть меню →</span>
+            </a>
+
+            <a href="/assistant/" class="feature-card feature-link">
+                <div class="feature-icon">💬</div>
+                <h3>ИИ-помощник</h3>
+                <p>Получи помощь с выбором блюда и вопросами о питании.</p>
+                <span class="card-link">Перейти к помощнику →</span>
+            </a>
+
+            {% if user.is_authenticated and user.is_staff %}
+                <a href="/kitchen/" class="feature-card feature-link">
+                    <div class="feature-icon">👨‍🍳</div>
+                    <h3>Панель кухни</h3>
+                    <p>Просматривай заказы и управляй приготовлением.</p>
+                    <span class="card-link">Открыть кухню →</span>
+                </a>
+
+                <a href="/economics/" class="feature-card feature-link">
+                    <div class="feature-icon">📈</div>
+                    <h3>Экономика</h3>
+                    <p>Отслеживай бюджет и возможную экономию.</p>
+                    <span class="card-link">Посмотреть показатели →</span>
+                </a>
+
+                <a href="/accounting/" class="feature-card feature-link">
+                    <div class="feature-icon">🧾</div>
+                    <h3>Бухгалтерия</h3>
+                    <p>Учитывай расходы, распределение средств и отходы.</p>
+                    <span class="card-link">Открыть бухгалтерию →</span>
+                </a>
+            {% endif %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}

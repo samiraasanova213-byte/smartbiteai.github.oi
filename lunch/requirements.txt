@@ -1,0 +1,6 @@
+Django
+gunicorn
+python-dotenv
+markdown
+groq
+whitenoise
